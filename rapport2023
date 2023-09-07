@@ -1,0 +1,1876 @@
+\documentclass[a4paper]{report}
+\usepackage[T1]{fontenc}
+\usepackage[sfdefault]{biolinum}
+\usepackage[french]{babel}
+\usepackage{setspace}
+\usepackage{color}
+\usepackage{soul}
+\definecolor{myhighlight}{RGB}{255, 0, 0} % Rouge
+\sethlcolor{myhighlight}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{pifont}
+\usepackage[headheight=13pt,top=3cm, bottom=2cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    filecolor=black,
+    urlcolor=black,
+}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\fancyfoot[L]{EMSI}
+\fancyfoot[C]{\textbf{\thepage}}
+\fancyfoot[R]{Année universitaire: 2022/2023}
+\begin{document}
+\begin{titlepage}
+	\begin{center}
+		\begin{figure}[!h]
+			\vspace{- 2 cm}
+			\hspace{ 0 cm}
+			\includegraphics[width=10cm]{images/emsi.png}
+		\end{figure}
+	\end{center}
+
+     
+         
+    
+	
+
+	\begin{center}
+		\begin{center}
+			\noindent \hspace{ 0.4 cm}{\LARGE \textsc{Mémoire de Projet de Fin d'Études}}\\
+		\end{center}
+		\begin{center}
+			\rule{0.9\linewidth}{1pt}
+		\end{center}
+		\vspace*{0.2cm}
+		\noindent \hspace{ 0.3 cm }\Huge \textbf{Analyse Fonctionnelle des Flux EDI Michelin
+}
+		\begin{center}
+			\rule{0.9\linewidth}{1pt}
+		\end{center}
+  
+		\vspace*{3cm} \noindent \hspace{ -0.5 cm} \large
+		\begin{figure}[H]
+			\begin{center}
+				\includegraphics[width=15cm]{images/LOGO CGI.jpg}
+			\end{center}
+		\end{figure}
+		
+		\vspace*{2cm}\raggedright{\textbf{\emph{Préparé par: BENAGUESSIM Hajar}}}\\
+  \raggedright{\textbf{\emph{Encadrée par: M. BELASLA (EMSI)}}}\\
+  \raggedright{\textbf{\emph{Supervisé par: M. Jihad (CGI)}}}\\
+		
+		\mbox{}\vfill
+		\begin{center}
+			\rule{0.9\linewidth}{1pt}\\
+			\Large\emph{
+				Filière Ingénierie Informatique et Réseaux\\
+				Année universitaire: 2022/2023
+			}
+		\end{center}
+
+
+	\end{center}
+\end{titlepage}
+
+\newpage
+\large
+\pagenumbering{roman} \setcounter{page}{1}
+
+\vspace*{2cm}\begin{figure}[H]
+		\begin{center}
+			\includegraphics[width=9cm]{images/bismilah.png}
+		\end{center}
+	\end{figure}
+
+ \vspace*{2cm}\begin{figure}[H]
+		\begin{center}
+			\includegraphics[width=17cm]{images/MOTANABI.png}
+		\end{center}
+	\end{figure}
+
+\newpage
+	\chapter*{\centering Dédicace}
+	\addcontentsline{toc}{chapter}{Dédicace}
+	\paragraph{
+        \, \, Je dédie ce travail 
+ À mes parents, je vous suis infiniment reconnaissant pour votre amour inconditionnel, vos sacrifices et votre soutien indéfectible. Votre confiance en moi m'a donné la force de persévérer et de réaliser mes rêves. Je suis honoré de vous avoir comme modèles de détermination, de travail acharné et de valeurs familiales.}\\
+        \paragraph{      \, \,  À mes frères bien-aimés, vous étiez mes compagnons de jeu, mes confidents et mes meilleurs amis tout au long de cette aventure éducative.}\\
+         \paragraph{       \, \,À mes amis fidèles, vous avez été les rayons de soleil qui ont illuminé mon parcours scolaire. Vos encouragements, votre soutien et votre amitié indéfectible ont été une source de force et de motivation.}\\
+         \paragraph{       \, \,Aux professeurs qui m'ont guidé et inspiré, je vous suis profondément reconnaissante pour votre expertise, votre passion et votre dévouement à l'enseignement.}\\
+
+
+ 
+\newpage
+\begin{doublespace}
+	\chapter*{\centering Remerciements}
+	\addcontentsline{toc}{chapter}{Remerciements}
+	\textit{
+	Selon une parole attribuée au Prophète, il est dit « \textbf{Celui 
+qui ne remercie pas les gens ne remercie pas Allah} ». En ce 
+sens, je tiens à remercier toutes les personnes, dont 
+l’intervention au cours de ce projet a favorisé son 
+aboutissement.
+}
+		
+		
+		\textit{
+  J’exprime ainsi, ma profonde gratitude à mon encadrant à 
+l’EMSI, M.\textbf {BELASLA}, pour les conseils qu’il 
+m’a prodigués, son judicieux encadrement ainsi que son 
+assistance tout au long de mon stage de fin d’études.}
+		 
+		 \textit{
+		 Je tiens à remercier vivement mes encadrants professionnels chez CGI, M.\textbf{Jihad SEMMAR}, Mme.\textbf{Safia SALMI}, Mme.\textbf{Kenza MOUSSAOUI} pour leur accueil, leurs qualités humaines exceptionnelles et le partage de leur incroyable expertise au quotidien. Merci d’avoir été ma source d’inspiration. }
+		 
+		 
+		 
+		\textit{
+	 	A mon encadrante à CGI, Mme.\textbf{Ilham BERRI}, je la remercie pour ses encouragements, son assistance et son encadrement.}
+		
+		
+		
+		\textit{
+		Un grand merci à toute l'équipe \textbf{CGI} pour leur accueil chaleureux, leurs bons conseils, leur sympathie, leur cordialité et leur aide précieuse qui ont contribué au succès de mon projet.}
+		
+		
+		\textit{
+		Je voudrais aussi exprimer ma vive reconnaissance envers tous les enseignants et le personnel de l'\textbf{EMSI}, pour la solide formation qu’ils m’ont prodiguée. Mes sincères remerciements sont adressés aux membres du jury pour l’honneur qu’ils me font en acceptant d’évaluer mon travail. }
+		
+		
+		\textit{
+		Enfin, je remercie toutes les personnes dont le nom ne figure peut-être pas sur cette page, mais qui ont été présentes tout au long de mon stage pour me conseiller, m’encourager et me soutenir. }
+  \end{doublespace}
+		
+	\newpage
+\large
+\pagenumbering{roman} \setcounter{page}{1}
+
+\begin{doublespace}
+	\chapter*{\centering Mentions légales}
+	\addcontentsline{toc}{chapter}{Mentions légales}
+	\paragraph{\textbf{  \, \, \, \, \, \, \,© CGI technologies and solutions, 2023 – tous droits réservés}}
+
+\begin{itemize}
+ \textit{Les informations contenues dans ce document sont la propriété de CGI Technologies et Solutions et sont strictement confidentielles. Ces informations ne peuvent être divulguées, reproduites ou diffusées sans l’autorisation de CGI Technologies et Solutions. Il est expressément interdit de reproduire, présenter ou dupliquer sur quelque support que ce soit et de quelque manière que ce soit, tout ou une partie de ce document sans l’autorisation de CGI Technologies et Solutions. }
+ \end{itemize}
+
+	\newpage
+
+	\chapter*{\centering Résumé}
+	\addcontentsline{toc}{chapter}{Résumé}
+
+	Ce rapport présente les résultats obtenus lors de mon projet de fin d'études effectué au sein de l'entreprise mondiale \textbf{CGI}, plus spécifiquement au sein de l'équipe \textbf{EDI} au sein du projet \textbf{MICHELIN}.
+
+L'objectif central de ce stage est d'élaborer et de mettre en œuvre des flux EDI, évinçant ainsi les méthodes conventionnelles de communication telles que les e-mails, les courriers et les fax, au profit de flux numériques automatisés. Ce système est conçu pour optimiser les processus d'achat et améliorer les interactions avec les fournisseurs en simplifiant les échanges entre les partenaires commerciaux grâce à la dématérialisation des communications.
+
+Ce rapport est structuré en plusieurs chapitres, chacun décrivant les différentes étapes entreprises dans le cadre du projet principal EDI, tout en apportant une perspective détaillée des exigences de notre client, MICHELIN. Ma mission au sein de cette organisation a porté principalement sur la consultation fonctionnelle, comprenant une spécification minutieuse des besoins. Parmi les diverses tâches accomplies, une exploration approfondie du processus ainsi que des aspects fonctionnels et techniques de l'EDI est entreprise. Pour la gestion de ce projet, nous  adoptons une approche basée sur la méthode \textbf{LEAN}, permettant une optimisation du processus.
+
+Dans ce document, je résume de manière succincte les missions entreprises au cours de ce projet, en mettant l'accent sur ma contribution spécifique liée à la consultation fonctionnelle et à la spécification détaillée des besoins.
+
+	\textbf	{\\Mots clés :\\ EDI, Flux, Lean, Processus Échange,Dématérialisation
+		 Analyse, Fonctionnelle, Donnée.}
+
+	\newpage
+
+	\chapter*{\centering Abstract}
+	\addcontentsline{toc}{chapter}{Abstract}
+
+	This report presents the outcomes of my final year project carried out within the multinational company CGI, specifically as a part of the \textbf{EDI} team in the \textbf{MICHELIN} project.
+
+The central objective of this internship was to design and implement EDI flows, thereby replacing traditional modes of communication such as emails, letters, and faxes, with automated digital flows. This system was aimed at streamlining procurement processes and enhancing supplier relationships by simplifying exchanges between business partners through digital dematerialization.
+
+This report is organized into several chapters, each detailing the various steps taken in the context of the main EDI project, while providing a comprehensive understanding of MICHELIN's requirements. My role within this organization primarily involved functional consultation, entailing a detailed specification of needs. Among the various tasks accomplished, a thorough exploration of the EDI process and its functional and technical aspects was undertaken. For project management, we embraced a \textbf{LEAN} methodology, facilitating process optimization.
+
+Within this document, I succinctly summarize the missions undertaken during this project, with a specific emphasis on my contribution related to functional consultation and detailed needs specification.
+
+
+	\textbf{\\Keywords:\\EDI, Flows, Lean, Process, Exchange, Dematerialization
+		 Analysis, Functional, Data.}
+
+\end{doublespace}
+
+
+
+\newpage
+\listoffigures
+
+\newpage
+\renewcommand{\listtablename}{Liste des tableaux}
+\listoftables
+
+\newpage
+
+	\chapter*{\centering Liste des abréviations}
+	\addcontentsline{toc}{chapter}{Liste des abréviations}
+	\begin{itemize}
+	\item[•] \textbf{CGI:} Conseillers En Gestion Et Informatiques.
+	\item[•] \textbf{EDI:} Electronic Data Interchange.
+	\item[•] \textbf{AF:} Analyste Fonctionnel.
+		\item[•] \textbf{BA:} Business Analyste.
+		\item[•] \textbf{BR:} Business request.
+		\item[•] \textbf{WO:} Working order.
+		\item[•] \textbf{RT:} Retail.
+        \item[•] \textbf{OE:} Original Equipement.
+		\item[•] \textbf{O2C:} Order to cash.
+		\item[•] \textbf{ER:} Enhancement Request.
+        \item[•] \textbf{S4C:} Stock report.
+        \item[•] \textbf{PRP:} Problem In Production.
+        \item[•] \textbf{PRT:} Problem In Test.
+        
+	\end{itemize}
+
+ \newpage
+
+\fancyhead[R]{\textbf{Table des matières}}
+\fancyhead[L]{\hspace*{5cm}}
+\tableofcontents
+
+	\newpage
+
+\begin{doublespace}
+	\chapter*{\centering Introduction générale}
+	\addcontentsline{toc}{chapter}{Introduction générale}
+	
+	
+	 Ce mémoire synthétise mon projet de stage de fin d'études chez CGI technologies et solutions à Rabat. Mon objectif lors de ce stage est d'approfondir mes compétences en tant qu'analyste fonctionnel en intégrant l'équipe EDI afin de mettre en place des projets EDI pour \textbf{Michelin}.
+
+Il est indéniable aujourd'hui que la mise en place d'un système informatique améliore les performances, augmente l'efficacité des organisations et facilite la gestion du travail. Dans le cas de Michelin, le client utilise la technologie \textbf{EDI} (Échange de Données Informatisées), qui consiste en l'échange de données informatisées entre entreprises interconnectées selon des normes et des formats standardisés tels que les bons de livraison, les factures, les avoirs, etc. Mon rôle était d'étudier et de réaliser des projets EDI entre Michelin et ses clients pour différents types de messages EDI, en prenant en charge les besoins métier à travers les différentes missions telles que l'étude d'opportunité, la réalisation, le paramétrage et le suivi de la production en support.
+
+L'objectif de ce stage est de comprendre le métier d'analyste fonctionnel et d'accomplir ma mission qui consiste à analyser les besoins, concevoir et spécifier le processus EDI.
+
+Ce mémoire présente les différentes phases du projet ainsi que les moyens que j'ai utilisés pour atteindre les objectifs fixés. Il est divisé en plusieurs chapitres principaux :
+
+Le premier chapitre présente CGI, l'organisme d'accueil, ainsi que le client Michelin.
+
+Le deuxième chapitre aborde le contexte du projet EDI Michelin et présente de manière détaillée la technologie EDI.
+
+Le troisième chapitre traite de la conduite du projet, en utilisant le processus JIRA et en décrivant la méthodologie adoptée.
+
+Le quatrième chapitre est consacré à l'étude des besoins et au processus d'un projet EDI Michelin.
+
+Le cinquième chapitre présente la spécification fonctionnelle, qui vise à expliciter les besoins du client.
+
+Le sixième chapitre traite de la présentation du métier d'analyste fonctionnel, des outils utilisés, de la réalisation et donne des exemples de traitement d'un flux.
+	\newpage
+
+
+
+	\pagenumbering{arabic} \setcounter{page}{1}
+	\chapter{L'organisme d'accueil} 
+	\fancyhead[R]{\textbf{Chapitre \thechapter: L'organisme d'accueil}}
+	\fancyhead[L]{\hspace*{5cm}}
+	Le présent chapitre est consacré à la description de l'organisme d'accueil \textbf{ CGI} de mon stage de fin d'études.
+	Cette section permettra de mieux comprendre le contexte dans lequel j'ai effectué mon stage et d'apprécier l'environnement professionnel dans lequel j'ai évolué.
+	\section{CGI: Technologies & Solutions}
+
+	En 1976, deux entrepreneurs nommés Serge Godin et André Imbeau ont fondé \textbf{CGI}. Cette entreprise est un leader dans le domaine des technologies de l'information (TI) et est également la cinquième plus grande entreprise indépendante au monde dans les services de technologie de l'information et de gestion des processus d'affaires. Elle exerce ses activités à l'échelle mondiale.
+
+
+En 2012, \textbf{CGI} a connu une croissance significative et a étendu sa présence géographique grâce à l'acquisition de \textbf{LOGICA}, finalisée le 20 août. L'intégration de textbf{LOGICA} étant maintenant bien avancée, l'entreprise combinée opère sous la marque unifiée de \textbf{CGI}.
+
+\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=9cm]{images/logica.png}}
+			\caption{Logica}
+		\end{center}
+	\end{figure}
+
+En 2018, \textbf{CGI} a enregistré un chiffre d'affaires estimé à 11,5 milliards de dollars. Avec une équipe de 74 000 professionnels répartis dans le monde entier, \textbf{CGI} propose un large éventail de services et de solutions, notamment des services-conseils en TI et en gestion, des services d'intégration de systèmes et d'externalisation, ainsi que des solutions reposant sur sa propre propriété intellectuelle.
+
+CGI se distingue par sa collaboration étroite avec ses clients, en adoptant un modèle axé sur les relations locales tout en bénéficiant d'un réseau mondial de prestation de services. Cette approche permet aux clients de réaliser leur transformation numérique et d'obtenir des résultats plus rapidement. Ces figures illustre la présence mondiale de \textbf{CGI}.
+
+	\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=9cm]{Rapport PFE CGI 2023/2316e4ec-1ca9-4f42-89e2-6ec67fe53b10.jpg}}
+			\caption{Présence de CGI dans le Monde}
+		\end{center}
+	\end{figure}
+
+ 	\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=9cm]{Rapport PFE CGI 2023/3c5cc442-56c2-4cbe-a545-a523e08607da.jpg}}
+			\caption{Présence de CGI dans le Monde}
+		\end{center}
+	\end{figure}
+
+ \subsection{Expertise Sectorielle}
+
+ Depuis sa création, \textbf{CGI} exerce une stratégie axée sur les secteurs cibles pour 
+présenter ses différents services et être pour ses clients un partenaire à la fois expert en 
+TI et spécialiste de leur secteur. Les secteurs définis par \textbf{CGI} [W5] alliant la 
+connaissance des affaires et d’expertise technologique se présentent comme suit :
+
+
+- Services financiers : Accompagner les institutions financières, y compris les 
+banques et les compagnies d’assurance à réduire leur coût.
+
+
+- Santé : CGI soutient plus de 1 000 établissements de soins de santé, hôpitaux et 
+ministères de santé en offrant des solutions de meilleur soin.
+
+
+- Gouvernements : CGI travail avec plus de 2 000 agences gouvernementales afin 
+de les aider à réduire leurs coûts et à améliorer leur efficacité, la qualité et la 
+responsabilité des organismes de la fonction publique.
+
+
+- Télécommunications et services publics : Collaboration avec six des dix plus 
+importants fournisseurs mondiaux de services publics européens garantissant ainsi 
+un accroissement de leurs revenus et l'amélioration de leurs services.
+
+
+- Manufacturier, distribution et détail : CGI facilite la transformation des affaires 
+de plus de 2 000 clients en améliorant leur efficacité, en assurant leur fidélité, en 
+réduisant les coûts et en relançant leur croissance soutenue et durable.
+
+	\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=9cm]{images/secteur cible.png}}
+			\caption{Secteurs Cibles de CGI}
+		\end{center}
+	\end{figure}
+
+ \subsection{Client CGI}
+ Depuis sa création en 1976, CGI offre à ses clients une expertise approfondie dans les secteurs industriels ainsi qu'une solide expérience en technologies de l'information et en services-conseils. Grâce à son modèle axé sur la proximité, CGI fournit à ses clients des équipes stables, flexibles et motivées, ancrées localement et engagées à assurer leur réussite.
+
+CGI compte parmi ses clients des entreprises mondialement reconnues. Le schéma ci-dessous illustre quelques-uns de ces clients, classés par secteur d'activité :
+
+Au fil des années, CGI a su se faire une place importante sur le marché des technologies de l'information. Grâce à ses résultats probants et à sa compétitivité tarifaire, CGI gagne de plus en plus la confiance de ses clients qui choisissent de lui confier l'informatisation de leurs systèmes.
+
+ \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=13cm]{images/client CGI.png}}
+			\caption{Les clients de CGI par secteur}
+		\end{center}
+	\end{figure}
+	
+	\subsection{CGI Maroc }
+
+ Le centre de services de CGI au Maroc opère sur deux sites, collaborant étroitement pour fournir des services à la fois offshore et destinés au marché local. Actif dans le domaine du développement informatique et de l'innovation, CGI Maroc a commencé ses activités en 2004 et a lancé ses opérations sur le marché local en 2009. Avec un effectif initial d'une dizaine d'employés en 2004, l'entreprise compte désormais environ 700 collaborateurs. L'équipe est composée de professionnels jeunes (avec une moyenne d'âge de 29 ans) et diversifiés, alliant compétences en gestion et en technique. Les 700 collaborateurs sont répartis entre les deux sites, avec 65\% à Casablanca et 35\% à Rabat.
+
+CGI Maroc se positionne comme le principal recruteur et développeur de talents dans le domaine de l'informatique, avec une croissance constante de son effectif. Chaque année, l'entreprise connaît une augmentation moyenne de 25\% de son personnel, grâce à un processus de recrutement très sélectif.
+
+\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=13cm]{images/type d'activite.png}}
+			\caption{Types d’activité de CGI }
+		\end{center}
+	\end{figure}
+
+ A l’instar du Groupe CGI, le centre de services Maroc fournit des prestations dans des secteurs diversifiés:
+\begin{itemize}
+\item[•]	Intégration de systèmes. 
+\item[•]	Management d’équipes, de projets. 
+\item[•]	Implémentation de tests applicatifs. 
+\item[•]	Business Process Outsourcing et support. 
+\end{itemize}
+
+	
+	\subsection{Organigramme }
+
+	CGI Maroc est intégré dans la Business Unit France, Luxembourg et Maroc, dirigée par Jean-Michel Baticle. Il possède plusieurs centres techniques et fonctionnels. La branche marocaine met en œuvre les processus et les cadres de gestion développés par CGI à l'échelle mondiale. J'ai effectué mon stage au sein du centre de Rabat, qui se trouve à Technopolis, le deuxième plus grand site offshore au Maroc après Casanearshore.
+
+ \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=14cm]{images/organigramme cgi.png}}
+			\caption{Organigramme CGI  }
+		\end{center}
+	\end{figure}
+
+ 
+	\section{Présentation du client MICHELIN }
+         \subsection{Le Client MICHELIN}
+	Au cours de mon stage de fin d'études chez \textbf{CGI}, j'ai été affecté à l'équipe \textbf{"Michelin"}, où j'ai eu l'occasion de travailler sur le développement d'une solution dont \textbf{Michelin} est le bénéficiaire. Cette expérience m'a permis de collaborer directement avec l'équipe de \textbf{CGI} en charge de ce projet.
+
+La société \textbf{Michelin} fut créée à Clermont Ferrand le 28 mai 1889 en France et eut 
+pour premier gérant Edouard Michelin assisté de son frère André. L’idée de création 
+d’une société de pneumatique vient à l’esprit des deux frères après avoir créé le 
+premier pneu démontable pour une bicyclette.
+
+
+\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=10cm]{images/MICHEMIN.png}}
+			\caption{ Logo du Groupe Michelin}
+		\end{center}
+	\end{figure}
+
+ Aujourd’hui le groupe \textbf{MICHELIN} est spécialisé dans la fabrication et la 
+commercialisation des pneumatiques. Il publie des cartes routières, des guides gastronomiques ou touristiques et propose aussi des services d’aide à la mobilité sur des supports numériques.
+
+\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=10cm]{images/service produit michelin.png}}
+			\caption{ Services et Produits de Michelin}
+		\end{center}
+	\end{figure}
+
+ Acteur de référence sur tous les marchés du pneumatique et des services liés aux 
+voyages et aux déplacements, Michelin conduit une stratégie de croissance mondiale, 
+durable et rentable.
+
+   \subsection{Contrat Convergence}
+    \subsubsection{Présentation du contrat}
+
+   Pour ses activités en Europe et en Amérique du Nord, le Groupe Michelin fait appel 
+depuis plusieurs années maintenant, à un partenaire privilégié qui n’est autre que CGI 
+Technologies & Solutions dans le cadre du contrat Convergence. Ce contrat basé sur 
+un modèle novateur de cogestion, engage CGI à participer dans la transformation de 
+Michelin grâce à des solutions faciles d’utilisation et mises rapidement à la disposition 
+des utilisateurs. L’objectif est de faciliter les tâches quotidiennes, tout en assurant la 
+sécurité et l’intégrité des systèmes. Il s’agit notamment de faciliter l’optimisation du 
+pilotage de la production de Michelin ainsi que d’accélérer les lancements de 
+nouveaux produits.
+
+\subsubsection{Objectif du contrat}
+
+L’objectif de ce contrat est donc d’avoir un partenaire qui soutiendra MICHELIN 
+dans le développement de l’architecture de son système d’information (SI) en faisant 
+évoluer les processus d’affaires vers plus de collaboration, de mobilité et de 
+technologie, tout cela ayant pour finalité : garantir une convergence.
+
+
+Ainsi, CGI apportera son savoir-faire en méthodologie agile et en intelligence 
+d’affaires ainsi que ses compétences en technologies de l’information, par 
+l’intermédiaire de ses équipes françaises, américaines et marocaines situées 
+respectivement à Clermont-Ferrand en France et à Greenville (en Caroline du Sud) aux 
+États-Unis et à Rabat au Maroc.
+
+\subsection{L’Organisation interne }
+\subsubsection{Repartition du pouvoir}
+
+Michelin a adopté le statut juridique de Société en Commandite par Actions (SCA) il y a 140 ans, ce qui assure une distinction nette entre les pouvoirs de direction et de contrôle, ainsi qu'une gouvernance stable et responsable, favorisant la mise en place de stratégies à long terme.
+
+\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=15cm]{images/structure juridique michelin.png}}
+			\caption{Structure juridique de Michelin}
+		\end{center}
+	\end{figure}
+
+La structure juridique adoptée par Michelin présente une particularité avec la coexistence de deux types d'associés : les associés commanditaires (actionnaires) et les associés commandités (commandités).
+\begin{itemize}
+    \item[•]
+Les associés commanditaires (actionnaires) détiennent des actions exclusivement nominatives, favorisant ainsi des liens directs entre Michelin et ses actionnaires. La responsabilité des actionnaires se limite à leurs apports en cas de dettes de Michelin.
+\item[•] 
+Les associés commandités (commandités) sont responsables de manière illimitée et solidaire des dettes de Michelin sur leurs biens personnels. Ils ne peuvent pas renoncer à leur statut d'associé commandité ni à leurs responsabilités en démissionnant.
+\end{itemize}
+
+\subsubsection{Répartition du capital }
+
+Au 31/12/2004, la société Michelin comptait 2 584 actionnaires institutionnels et 188 947 actionnaires individuels, tous inscrits au nominatif. Cela permet de mieux les connaître et d’établir avec eux une relation de proximité. 
+Durant les années 2002 et 2003 a été établi le « Plan d’Actionnariat Salarié Michelin » avec une certaine réussite puisque 69\% des personnels éligibles ont choisi de devenir actionnaires (2004 : les actionnaires salariés représentent 2,1\% du capital). Ceci renforce ainsi le caractère de proximité du capital et d’implication forte des salariés à la réussite et à l’expansion du groupe.
+
+\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=15cm]{images/repartition capital michelin.png}}
+			\caption{partition du capital Michelin }
+		\end{center}
+	\end{figure}
+
+        \section{L’équipe cible du projet EDI }
+
+        On est une équipe étendue sur deux sites : Clermont et Rabat
+        Au sein de l'équipe EDI, on retrouve trois entités : O2C, dont je fais partie, Contrib, et Plateforme.
+        
+        \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=15cm]{images/orgnrm equipe edi.png}}
+			\caption{Organigramme D’équipe EDI  }
+		\end{center}
+	\end{figure}
+
+ La composition de l'équipe Michelin se décline comme suit :
+ \begin{itemize}
+     \item Manager de projet
+     \item Chef d'équipe
+     \item Team Lead
+     \item Analyste de support
+     \item Consultant en solutions
+     \item Analyste Fonctionnel (AF)
+     \item Analyste d'Affaires (BA)
+ \end{itemize}
+
+L'organisation de l'équipe EDI Michelin repose sur quatre principaux acteurs internes :
+
+
+  \textbf{Le chef de projet} : Il orchestre les projets informatiques au sein de l'entreprise, de la conception à la mise en place effective. Il assure la gestion des intervenants et le respect des délais, combinant compétences techniques et qualités managériales.
+
+  
+   \textbf{L'Analyste d'Affaires (BA)} : Ce rôle est essentiel pour la communication entre les départements opérationnels de l'entreprise et le service informatique, en l'occurrence les prestataires OpenText dans notre contexte. Le BA analyse les processus d'information et les stratégies soutenant les décisions quotidiennes de l'entreprise, afin d'en évaluer l'efficacité et d'apporter des ajustements si nécessaires.
+
+   
+   \textbf{L'Analyste Fonctionnel (AF)} : Toujours en quête de solutions, l'Analyste Fonctionnel a pour tâche d'analyser les besoins des utilisateurs pour identifier les solutions les mieux adaptées à leurs attentes, tout en supervisant le développement en cours.
+
+   
+   \textbf{L'Équipe de support} : Les analystes de support traitent les tickets afin de résoudre les problèmes des utilisateurs dans des situations parfois urgentes. Ils anticipent également de potentiels problèmes pour faciliter la vie des AF et des BA en collaboration avec OpenText et le client final après la livraison du produit.
+
+Au sein de l'équipe Michelin, mon rôle a été celui d'analyste fonctionnel. Dans la prochaine section, je détaillerai les tâches qui m'ont été assignées, ainsi que celles attribuées à l'ensemble de l'équipe.
+
+ 
+
+
+ \section{Conclusion}
+
+ Le premier chapitre a introduit CGI Technologies et Solutions en tant qu'organisme d'accueil, en détaillant son domaine d'activité, ainsi qu'une présentation du client Michelin et de la structure d'équipe. Le chapitre suivant sera consacré à la présentation du projet et à une description détaillée de l'EDI. Cette étude revêt une importance capitale pour une meilleure compréhension du sujet du stage et pour mettre l'accent sur le métier du projet.
+ 
+	\newpage
+	\chapter{Présentation du projet}
+	\fancyhead[R]{\textbf{Chapitre \thechapter:Présentation du projet}}
+	\fancyhead[L]{\hspace*{5cm}}
+L'objectif de ce chapitre est de fournir une définition générale du contexte du projet EDI Michelin, ainsi qu'une analyse approfondie de la technologie EDI, du processus du projet EDI, des différents types de messages et des connexions utilisées. De plus, une description du Booster EDI et de ses objectifs sera également abordée afin d'approfondir la compréhension de cette composante du projet.
+
+      \section{Problématique}
+
+      Problématique : Comment optimiser et automatiser les échanges d'informations entre partenaires commerciaux tout en réduisant les erreurs et les délais, face à la croissance constante du volume de données et à la diversité des systèmes d'information utilisés par chaque partenaire ?
+
+Dans un environnement commercial de plus en plus mondialisé et interconnecté, les entreprises sont confrontées à la nécessité de collaborer et d'échanger des informations avec un réseau étendu de partenaires commerciaux tels que fournisseurs, distributeurs et clients. Cependant, cette collaboration peut rapidement devenir complexe en raison de plusieurs facteurs. Tout d'abord, chaque entreprise peut avoir son propre système d'information, avec des formats de données, des protocoles de communication et des processus internes différents. Cela peut conduire à des inefficacités et à des erreurs dans la transmission manuelle des informations, entraînant des retards dans les opérations et des problèmes de qualité.
+
+De plus, avec la croissance exponentielle du volume de données échangées, notamment avec la montée en puissance du commerce électronique et des transactions en ligne, les méthodes traditionnelles de communication telles que les e-mails, les courriers et les fax montrent leurs limites en termes de rapidité, d'efficacité et de traçabilité. Les entreprises ont besoin d'une solution qui puisse gérer efficacement ce flux de données croissant tout en minimisant les risques d'erreurs humaines et en améliorant la visibilité sur les processus.
+
+C'est ici que l'Échange de Données Informatisé (EDI) entre en jeu. L'EDI offre une solution automatisée pour la gestion des échanges d'informations entre les partenaires commerciaux. En utilisant des standards de communication bien définis, des formats de données normalisés et des processus automatisés, l'EDI permet aux entreprises de créer des flux d'informations cohérents et fiables, indépendamment des différences techniques entre les systèmes d'information de chaque partenaire. Cela réduit les erreurs humaines, accélère les processus, et offre une visibilité en temps réel sur les opérations.
+
+Mon rôle au sein de ce projet EDI chez CGI consiste en la consultation fonctionnelle, débutant par la spécification des besoins des clients jusqu'à la livraison finale. Je suis chargé de comprendre les exigences et les workflows spécifiques de nos clients, de les traduire en configurations EDI appropriées, et d'assurer la mise en œuvre et l'intégration réussie de ces solutions dans leur environnement opérationnel. En collaborant étroitement avec les divers acteurs de l'équipe et en garantissant l'alignement avec les besoins des clients, je contribue à résoudre la problématique de l'optimisation des échanges d'informations dans ce contexte complexe et en constante évolution.
+
+	\section{Définition de la technologie Edi}
+
+	La communication entre deux partenaires implique l'échange d'informations, qu'il soit normalisé ou non. Les entreprises disposent de divers moyens tels que le contact direct, le courrier, le téléphone, la télécopie, le courrier électronique, les extranets, Internet et les échanges automatiques entre applications, utilisant différents supports.
+
+L'\textbf{EDI} (Échange de Données Informatisé) est une méthode d'échange informatisé de données structurées d'ordinateur à ordinateur, sans intervention humaine, en utilisant des messages préétablis et normalisés via un mode de communication électronique. Il a été initialement conçu pour atteindre l'objectif du zéro papier et automatiser le traitement de l'information. L'\textbf{EDI} ne modifie pas les données qu'il transporte, mais les formate en respectant les normes.
+
+L'\textbf{EDI} permet d'échanger rapidement et de manière fiable des données provenant d'applications, favorisant ainsi la fluidité des informations échangées et réduisant considérablement les coûts de traitement, tout en renforçant la sécurité des transactions. Il réduit également la dépendance aux interventions humaines dans le traitement de l'information, ce qui le rend plus rapide et plus fiable.
+
+ \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[width=12cm]{images/edi.png}}
+			\caption{EDI  }
+		\end{center}
+	\end{figure}
+
+	\section{Les avantages d’EDI}
+ 
+	Parmi les avantages de l’\textbf{EDI} on cite :
+
+               \begin{itemize}
+                   \item L'EDI garantit la fiabilité des documents : Les informations transmises sont reçues avec une précision totale, éliminant ainsi les erreurs potentielles causées par la saisie manuelle.
+                   \item Les délais sont réduits grâce à l'EDI : Les documents électroniques sont livrés de manière beaucoup plus rapide que les documents papier, ce qui accélère leur traitement global.
+                   \item L'EDI élimine l'utilisation du papier : Cela permet de réaliser des économies substantielles en termes de coûts liés à l'achat, à l'impression et au stockage du papier.
+
+
+
+
+
+
+               \end{itemize}
+ 
+
+ 
+	\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.8]{images/echg tradi vs moderne.png}}
+			\caption{Echange traditionnel vs EDI}
+		\end{center}
+	\end{figure}
+	\section{Description du projet EDI Michelin }
+
+L'\textbf{EDI Michelin} désigne le périmètre permettant la prise en charge, l’étude et la réalisation des projets EDI entre Michelin et ses clients pour différents types de messages EDI.
+
+
+Le rôle du \textbf{EDI} s’étend sur différents besoins Business à travers les missions principales suivantes : 
+\begin{itemize}
+     
+\item L’étude d’opportunité Business.
+\item	La réalisation des projets EDI et paramétrage pour :
+\begin{itemize}
+
+\item[•] 	La récupération d’informations (brutes ou formatées) issues des systèmes amont.
+\item[•] 	Le Traitement de ces informations
+\item[•] 	L’Emission des informations résultantes vers leur(s) destinataire(s)\end{itemize}
+\item 	Le suivi de production en support N3\end{itemize}
+
+
+
+Une partie de la réalisation des projets EDI est externalisée chez le partenaire EDI OpenText et de la configuration système chez le prestataire IBM sous la responsabilité du domaine EDI.
+ Ainsi qu’il est mis en charge de répondre aux besoins EDI exprimés par le Business sur différents domaines métiers.
+
+ 
+Les principaux domaines sont découpés comme suit :
+\begin{itemize}
+     
+
+\item	\textbf{Grands comptes}: désignant les deux périmètres « Retail » et « Original equipment » :\begin{itemize}
+\item[•]	\textbf{Original Equipment (OE)} : domaine de gestion des produits Michelin destinés à la première monte.
+\item[•]	\textbf{Retail (RT)} : domaine de gestion des produits Michelin destinés au remplacement.\end{itemize}
+\item	\textbf{Contrib}: désignant le périmètre de contribution du CCEDI dans les projets exprimés par des domaines internes Michelin.\end{itemize}
+
+   \section{Architecture et types de flux EDI Michelin}
+   \subsection{Architecture EDI Michelin}
+Les applications Michelin envoient régulièrement des flux de données au format de fichier plat vers l'application web Bizlink Michelin. Cette dernière agit comme un centre de collecte pour tous les messages. Ces flux sont transférés via un canal appelé "Pelican" et MQ.
+
+Une fois que les flux atteignent l'application web du prestataire, Bizlink Opentext, ce dernier prend en charge le processus de mapping et de traduction des données en se référant aux spécifications fonctionnelles définies par l'AF selon les besoins du client. Une fois que la connexion avec le client est établie et que le mapping est effectué, le client peut recevoir les flux souhaités en provenance des applications Michelin.
+   
+	
+	\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.9]{images/edi_arch.png}}
+			\caption{Architecture d’EDI Michelin  }
+		\end{center}
+	\end{figure}
+	\newpage
+	\subsection{Types de flux EDI Michelin}
+
+   Chaque application Michelin produit un flux unique en fonction de la fréquence du lot d'exécution.
+	
+	\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=1]{images/flux par app.png}}
+			\caption{Flux par application}
+		\end{center}
+	\end{figure}
+	Le client de Michelin a la possibilité de demander le type de flux qu'il souhaite recevoir, contenant les informations qui l'intéressent.
+	\section{Les messages EDI}
+	Les flux qui existent entre le client et Michelin sont : 
+
+\begin{itemize}
+    \item[•] \textbf{S4C}: Donne de la visibilité sur le stock. 
+     \item[•] \textbf{PRICAT}: Donne de la visibilité sur le prix.
+      \item[•] \textbf{DELJIT}: Pour les commandes de dernières minutes (Just In Time).
+      \item[•] \textbf{DELFOR}: Pour les commandes de besoin prévisionnel. 
+      \item[•] \textbf{ORDERS}: Pour les commandes fermes avec une date fixe. 
+      \item[•] \textbf{ORDERSP}: Réponse à la commande (confirmation). 
+      \item[•] \textbf{DESADV}: Pour l’envoi de l’avis d’expédition.
+      \item[•] \textbf{INVOIC}: Pour l’envoi de facture. 
+      \item[•] \textbf{SELF BILLING}: Le client s’auto-facture (M fait l’approvisionnement pour le client).
+      \item[•] \textbf{APERAK}: Accuse de réception et d’intégration dans le système. 
+      \item[•] \textbf{INVRPT} : Pour le rapport sur le niveau de stock.
+\end{itemize}
+
+		\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=1]{images/fluxEdiMichelin.png}}
+			\caption{Flux EDI Michelin}
+		\end{center}
+	\end{figure}
+	
+	\section{Application interactives EDI}
+	\begin{itemize}
+	    \item[•] \textbf{S4C} : Application Michelin permettant de ressortir les flux S4C à destination des clients Michelin RT.
+        \item[•] \textbf{PCR}: Application Michelin émettrice des flux PRICAT à destination des clients RT.
+        \item[•] \textbf{VDE} : Module Michelin contenant les deux applications CLR et CLO.
+        \begin{itemize}
+            \item \textbf{CLR}: Application permettant la gestion des commandes, des bons de livraison et d’inventaire de stock pour les clients RT.
+            \item \textbf{CLO}: Application permettant la gestion des commandes prévisionnelles, des commandes fermes, commandes instantanées, des bons de livraison et de l’inventaire des stocks pour les clients OE.
+        \end{itemize}
+        \item[•] \textbf{FAE}: Application permettant la gestion de la facturation Michelin.
+        \item[•] \textbf{FOP}: Application permettant la gestion de la facturation Michelin qui remplacera à terme l’application FAE.
+        \item[•] \textbf{CUPIDON}: Application servant à faire de l’auto-facturation des clients OE.
+	\end{itemize}
+
+        \section{Normes et Protocoles Edi Michelin}
+	\subsection{Normes EDI Michelin}
+
+        \begin{itemize}
+            \item[\ding{228}] \textbf{EDIFACT}
+        \end{itemize}
+        \begin{itemize}
+            \item[•] Un éventail de règles syntaxiques.
+            \item[•] Un protocole d’échange interactif.
+            \item[•] Permet un échange de documents commerciaux électroniques entre plusieurs pays et plusieurs industries. 
+            \item[•] Largement utilisée en Europe.
+        \end{itemize}
+
+        \begin{itemize}
+            \item[\ding{228}] \textbf{Fichier Plat}
+        \end{itemize}
+        \begin{itemize}
+            \item[•] Les fichiers plats (de l’anglais flat file) représentent le format le plus universel pour échanger des données. 
+            \item[•] La plupart des bases de données relationnelles peuvent importer/exporter leurs données à partir de fichiers plats. 
+            \item[•] Dans une même ligne, on sépare les données appartenant à différentes colonnes à l’aide d’un caractère particulier, comme la virgule — dans ce cas particulier, on dit qu’on a un fichier CSV.
+        \end{itemize}
+
+         \begin{itemize}
+            \item[\ding{228}] \textbf{XML}
+        \end{itemize}
+         \begin{itemize}
+            \item[•] Sa syntaxe est dite extensible car elle permet de définir différents langages avec chacun leur vocabulaire (XHTML, XSL…). 
+            \item[•] Elle est reconnaissable par son usage des chevrons (¡, ¿) encadrant les noms des balises. 
+        \end{itemize}
+
+         \begin{itemize}
+            \item[\ding{228}] \textbf{EDIWHEEL}
+        \end{itemize}
+        \begin{itemize}
+            \item[•] Norme industrielle du commerce des pneumatiques.  
+            \item[•] Créer dans le cadre d’une collaboration entre les distributeurs, les fabricants de logiciels et l’industrie du pneumatique. 
+            \item[•] La base des sous-ensembles EANCOM
+        \end{itemize}
+
+        \begin{itemize}
+            \item[\ding{228}] \textbf{IDOC}
+        \end{itemize}
+         \begin{itemize}
+            \item[•] Signifie document intermediaries.  
+            \item[•] Structure de données standard pour l’EDI entre des applications élaborées pour le système informatique de SAP ou entre une application SAP et un programme externe. 
+            \item[•] Les IDOC permettent le transfert de données dans le système Application Link Enabling de SAP.
+        \end{itemize}
+ 
+	\subsection{Protocoles EDI Michelin }
+
+         L'uniformité des transmissions est assurée par les normes de communication qui définissent le contenu et le format des messages.
+
+          \begin{itemize}
+            \item[\ding{228}] \textbf{AS2}
+        \end{itemize}
+
+        Les messages \textbf{AS2} (Applicability Statement 2) sont généralement transmis via Internet en utilisant le protocole HTTP ou HTTPS. Comparé au protocole HTTP standard, l'AS2 offre de nombreux avantages, notamment une vérification et une sécurité renforcées grâce à l'utilisation d'accusés de réception et de signatures numériques.
+
+Grâce à l'\textbf{AS2}, les transactions et les accusés de réception peuvent être effectués en temps réel, ce qui améliore considérablement l'efficacité des échanges de documents. Il est intéressant de noter que l'entreprise américaine Walmart a été l'un des premiers acteurs à encourager l'adoption de l'\textbf{AS2} dans l'industrie de la grande distribution.
+ 
+	\begin{itemize}
+		\item[•] Certificat
+		\item[•] URL
+		\item[•] ID
+        \item[•] MDP
+         \item[•] MDN: Accusé de réception technique
+	\end{itemize}
+
+
+         \begin{itemize}
+            \item[\ding{228}] \textbf{FTP}
+        \end{itemize}
+
+        Le File Transfer Protocol Secure est une extension du protocole FTP qui ajoute la prise en charge des protocoles cryptographiques TLS (Transport Layer Security) et SSL (Secure Sockets Layer). Le FTPS ne doit pas être confondu avec le SFTP, un sous-système de transfert sécurisé de fichiers incompatible du protocole SSH (Secure Shell). Il est également différent du FTP sécurisé, un transfert FTP via une connexion SSH.
+
+         \begin{itemize}
+		\item[•] Adresse IP 
+		\item[•] ID
+		\item[•] MDP
+        \item[•] Type: Explicite/implicite
+	\end{itemize}
+
+ 
+         \begin{itemize}
+            \item[\ding{228}] \textbf{SFTP}
+        \end{itemize}
+
+
+          SFTP Le Secure File Transfer Protocol est un protocole réseau qui permet d’accéder à des fichiers, de les transférer et de les manipuler dans un flux de données fiable quel qu’il soit. Il a été pensé comme une extension du protocole SSH (Secure Shell) version 2.0 afin de permettre un transfert sécurisé de fichiers tout en laissant la porte ouverte à une utilisation avec d’autres protocoles. Le SFTP peut être utilisé dans un certain nombre d’applications différentes telles que le transfert sécurisé via le protocole TLS (Transport Layer Security) et le transfert d’informations de gestion dans des applications VPN. Ce protocole part du principe qu’il est utilisé sur un canal sécurisé, tel que le SSH, que le serveur a déjà authentifié le client et que l’identité de l’utilisateur est mise à la disposition du protocole. 
+
+        \begin{itemize}
+		\item[•] Adresse d’hôte  
+		\item[•] Port 
+		\item[•] ID
+        \item[•] MDP
+	\end{itemize}
+
+
+     \begin{itemize}
+            \item[\ding{228}] \textbf{OFTP}
+        \end{itemize}
+
+        OFTP (Odette File Transfer Protocol) a été conçu à l'origine pour l'échange de données entre partenaires automobiles en Europe. Aujourd'hui, c'est encore le système le plus répandu dans le secteur et il est utilisé par la plupart des constructeurs automobiles pour échanger des transactions avec tous leurs fournisseurs.
+
+        
+La dernière version du protocole est identifiée comme OFTP2 et fournit un nombre accru de fonctionnalités de sécurité pour l'échange sécurisé de données sur les réseaux IP.
+
+        \section{Booster EDI Michelin}
+        
+          \begin{itemize}
+            \item[\ding{229}] \textbf{But de projet}
+        \end{itemize}
+
+        Le booster offre une plateforme d'intégration hybride, ouverte, attrayante et performante pour accélérer la mise en œuvre des flux d'information. Les équipes sont disponibles, engagées et hautement compétentes. Cette solution permet aux partenaires, clients, fournisseurs et administrateurs de se connecter facilement aux systèmes de Michelin. Elle favorise la croissance du groupe dans le e-business et renforce sa réputation en tant qu'entreprise qui facilite grandement les intégrations.
+
+        \subsection{Pourquoi ?}
+
+        \begin{itemize}
+		\item[•] Être Reconnue comme un acteur avec lequel il est facile de s’intégrer, en termes de System to System.  
+		\item[•] Gagner des parts de marché, et se distinguer par rapport à la concurrence. 
+	\end{itemize}
+
+       \subsection{Pour qui ?}
+
+        \begin{itemize}
+		\item[•] Demandeurs de flux, des entités désirantes de se connecter à des systèmes externes.   
+		\item[•] Des contacts clients. 
+        \item[•] Equipes IT/Support.  
+        \item[•] Des auditeurs pour des besoins précis.
+	\end{itemize}
+
+   \subsection{Quels changements ? }
+
+        \begin{itemize}
+		\item[•] Réduire le lead time des flux.  
+		\item[•] Maitrise des flux via un meilleur monitoring.  
+        \item[•] Accroitre les échanges dématérialisés.   
+        \item[•] Simplifier les process. 
+        \item[•] Acculturer le commerce sur solutions d’intégration. 
+	\end{itemize}
+
+      \subsection{Comment ? }
+
+        \begin{itemize}
+		\item[•] Dispositif humain mobilisé et autonome.   
+		\item[•] Automatisation des flux standards. (Pouvoir standardiser des flux, les industrialiser et les automatiser en limitant les interventions humaines dans la mise en place des flux)   
+        \item[•] Monitoring métier et technique des flux.   
+        \item[•] Pilotage et priorisation des besoins/demandes par la valeur.  
+        \item[•] Canal unique et simple pour prioriser. 
+        \item[•] Catalogue de solutions System2System complet, connu et accessible. 
+        \item[•] Aide à la décision technologique (EDI, API, custom…).
+	\end{itemize}
+
+ 
+      \subsection{Easy to work with Michelin  }
+
+        \begin{itemize}
+		\item[•] Pour montrer aux clients qu’il est facile de s’intégrer avec Michelin.   
+		\item[•] Donner de la visibilité des flux que Michelin est capable de produire. 
+        \item[•] Collecte de toutes les demandes des flux qui seront mise en place, standards ou bien non standards.  
+	\end{itemize}
+
+  \subsection{More integration, more quicker  }
+
+        \begin{itemize}
+		\item[•] Plus on a de l’intégration à faire, plus on il faut aller plus vite pour pouvoir répondre aux attentes.   
+		\item[•] Catalogue mettant en visibilité les flux standards. 
+        \item[•] Router les demandes des flux non standards vers les bonnes équipes en fonction du type de flux.  
+	\end{itemize}
+
+ \subsection{Excellence of operability   }
+
+        \begin{itemize}
+		\item[•] Intégration du M2I (flow referential)   
+		\item[•] Mise en place d’un Dashboard Splunk pour avoir de la visibilité sur l’activité de Bizlink.  
+	\end{itemize}
+
+       \section{Conclusion}
+
+       Le chapitre débute en présentant une définition de la technologie EDI. Ensuite, il décrit en détail la mission et les objectifs du projet EDI Michelin, en abordant divers aspects tels que le processus EDI, l'architecture utilisée, les types de flux EDI en collaboration avec le client, ainsi que les normes et protocoles mis en œuvre. Une introduction au Booster EDI Michelin est également incluse. Dans le chapitre suivant, nous examinerons en détail l'étude des besoins.
+
+       \newpage
+	\chapter{Etude des besoins}
+	\fancyhead[R]{\textbf{Chapitre \thechapter:Etude des besoins}}
+	\fancyhead[L]{\hspace*{5cm}}
+
+        La spécification des besoins repose sur une approche scientifique qui se concentre sur les fonctions que le produit doit remplir. Cela implique de caractériser et de hiérarchiser les différentes fonctions du système. 
+        
+        Cette approche nous permet d'identifier toutes les fonctionnalités requises pour notre processus métier, en tenant compte des besoins spécifiques de chaque type d'utilisateur. En recensant les besoins fonctionnels et en définissant les exigences de manière détaillée, nous pourrons élaborer un workflow EDI bien maîtrisé. Pour ce faire, j'utiliserai le formalisme BPMN (Business Process Model and Notation) en raison de ses caractéristiques avantageuses.
+
+
+        \section{La modélisation des processus }
+
+        La modélisation des processus métier est une étape cruciale et essentielle dans la réalisation d'un système. Son objectif principal est de fournir une notation claire et compréhensible par l'ensemble des utilisateurs de l'entreprise. Cela inclut les analystes métier qui créent les premières ébauches des processus, les développeurs chargés de mettre en place la technologie pour exécuter ces processus applicatifs, et enfin, les utilisateurs de l'entreprise qui vont implémenter ces processus dans leur travail quotidien. La modélisation de processus métier permet ainsi une meilleure communication et collaboration entre toutes les parties impliquées dans le projet.
+
+        \subsection{Le BPMN}
+
+          Le formalisme BPMN est une représentation graphique largement utilisée pour décrire les processus métier. Il a acquis le statut de standard, similaire à UML de l'OMG, ce qui témoigne de son importance dans le domaine de la modélisation. BPMN, qui signifie Business Process Modeling Notation, offre de nombreux avantages. Tout d'abord, il permet de séparer clairement les informations relatives au métier de celles liées aux aspects techniques lors de la description des processus. De plus, cette notation permet d'évoluer vers un langage d'exécution du processus, ce qui facilite leur mise en œuvre pratique. En utilisant BPMN, les entreprises peuvent mieux visualiser et communiquer leurs processus métier de manière plus compréhensible et efficace.
+
+          \subsection{Pourquoi le BPMN }
+
+          Le BPMN représente un pont essentiel entre la modélisation des processus métier et les besoins informatiques des utilisateurs. Son objectif est de fournir une notation standard compréhensible par tous, qu'il s'agisse d'analystes, de développeurs ou d'utilisateurs métiers. Parmi ses caractéristiques notables :
+
+          \begin{itemize}
+		\item[•] Faciliter la transition entre les besoins métiers et la conception de systèmes ou d'applications.  
+		\item[•] Offrir une notation respectant des règles strictes et une rigueur, tout en étant neutre et adaptable.
+        \item[•] Permettre la création de diagrammes flowcharts qui présentent visuellement le déroulement des activités et les indicateurs.
+	\end{itemize}
+
+          Ces avantages ont été déterminants dans mon choix d'adopter BPMN pour élaborer le dossier de conception de mon projet, car cette approche favorise la compréhension et la collaboration entre les parties prenantes et garantit une modélisation claire et cohérente des processus métier.
+
+          \subsection{Modélisation détaillée }
+
+          L'objectif principal de cette étape est d'identifier les processus clés. Dans cette partie, nous nous concentrons sur la création des workflows, qui décrivent de manière précise les exigences du métier final. Ils spécifient le comportement attendu du système à développer.
+
+          \subsection{Identification des acteurs }
+
+          Un acteur est une entité interne qui joue un rôle et interagit directement avec le processus étudié. Il peut revêtir différentes formes, telles que :
+
+           \begin{itemize}
+		\item[•] PM: ¨Project manager  
+		\item[•] OL: Operationnel leader
+        \item[•] BA: business analyste.
+        \item[•] TL: team leader.
+        \item[•] AF: analyste fonctionnel.
+        \item[•] Support: équipe support N2.
+        \item[•] Dev: Opentext
+	\end{itemize}
+
+          \section{Process des projets EDI }
+          \subsection{Les phase d’un projet EDI }
+          
+          Un projet EDI chez Michelin passe par plusieurs phases durant son cycle de vie. 
+
+          \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.9]{images/phase de projet edi.png}}
+			\caption{Les phases d’un projet EDI}
+		\end{center}
+	\end{figure}
+
+          \subsection{La description des phases  }
+
+         \begin{itemize}
+             \item[\ding{228}] \textbf{Phase Opportunité :} Le client et l’équipe business travaillent sur l’opportunité de projet pour voir si le projet peut être validé et lancé en évaluant la valeur ajoutée du projet et en identifiant les risques.  
+
+
+                 \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.7]{images/opportunité.png}}
+			\caption{Workflow : Phase Opportunité}
+		\end{center}
+	\end{figure}
+
+
+             
+         \end{itemize}
+
+         \begin{itemize}
+    \item[\ding{217}] \textbf{Effet déclencheur:}
+
+    \begin{itemize}
+        \item[•] La Business assigne le BR au pilote opérationnel (PO) 
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Actions attendues:}
+
+    \begin{itemize}
+        \item[•] Le pilote opérationnel (PO) travaille en étroite collaboration avec le Business sur la collecte des inputs projet afin de rendre le projet « Prêt » pour prise en charge par l’équipe AF. Son rôle est d’évaluer l’opportunité projet et d’assurer la présence des inputs prédéfinis avant de transmettre le besoin à l’équipe AF 
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Fin Jalon:}
+
+    \begin{itemize}
+        \item[•] Les livrables attendues pour cette étape sont la Check-list  selon le type de message 
+    \end{itemize}
+\end{itemize}
+
+
+
+\vspace{1cm}
+          \begin{itemize}
+             \item[\ding{228}] \textbf{Phase Faisabilité :} Cette phase consiste à évaluer les conditions nécessaires à la réussite du projet en termes de compétences et financement. Durant cette phase, l’AF doit faire l’étude de faisabilité et fournir un document de faisabilité (plan de charge et chiffrage). 
+
+
+                 \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.4]{images/faisabilite.jpeg}}
+			\caption{Workflow : Phase Faisabilité }
+		\end{center}
+	\end{figure}
+
+
+
+         \begin{itemize}
+    \item[\ding{217}] \textbf{Effet déclencheur:}
+
+    \begin{itemize}
+        \item[•] Le PM affecte le BR à l’analyste fonctionnel (AF) 
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Actions attendues:}
+
+    \begin{itemize}
+        \item[•] L’AF assure dans cette phase l’évaluation du besoin en termes d’impact et coût et rédige un planning sur cette base
+        \item[•] L’AF demande la validation croisée de sa fiche d’analyse et planning avant de livrer au Business
+        
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Fin Jalon:}
+
+    \begin{itemize}
+        \item[•] La fiche d’analyse (FS) et le planning sont rédigés.
+        \item[•] La validation croisée est faite avec un visa de livraison à OK
+    \end{itemize}
+\end{itemize}
+
+
+
+             
+\vspace{1cm}
+          \begin{itemize}
+             \item[\ding{228}] \textbf{Phase Design : } L’analyste fonctionnel aura comme rôle d'ajouter la ligne bulkload et créer la wo.
+
+
+                 \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.5]{Rapport PFE CGI 2023/Design.png}}
+			\caption{Workflow : Phase Design }
+		\end{center}
+	\end{figure}
+
+
+
+         \begin{itemize}
+    \item[\ding{217}] \textbf{Effet déclencheur:}
+
+    \begin{itemize}
+        \item[•] La FS est validée par le Business 
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Actions attendues:}
+
+    \begin{itemize}
+        \item[•] L’AF réalise les actions pour préparer les spécifications/documents servant à l’implémentation de l’évolution auprès des équipes concernées.
+        \item[•] L’AF crée  la wo et l'envoi au partenaire OpenText.
+        
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Fin Jalon:}
+
+    \begin{itemize}
+        \item[•] L’ensemble des spécifications/documents sont prêts pour déclencher la phase implémentation.
+        \item[•] Le chiffrage de l’implémentation du partenaire OpenText/équipe tiers est fourni 
+    \end{itemize}
+\end{itemize}
+             
+\vspace{1cm}
+          \begin{itemize}
+             \item[\ding{228}] \textbf{Phase Implémentions : } Le prestataire commence le développement sur la base de la wo que l’AF à créer, pour ensuite faire la livraison en indus. Une fois la livraison est faite, l’AF peut commencer à effectuer et valider les test, et confirmer la bonne réception des livrables.
+
+                 \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.6]{Rapport PFE CGI 2023/implementation.png}}
+			\caption{Workflow : Phase Implémention }
+		\end{center}
+	\end{figure}
+
+
+
+         \begin{itemize}
+    \item[\ding{217}] \textbf{Effet déclencheur:}
+
+    \begin{itemize}
+        \item[•] L’AF valide le chiffrage des actions identifiées 
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Actions attendues:}
+
+    \begin{itemize}
+        \item[•] L’AF, le prestataire (OpenText) et les périmètres concernés commencent les développements. 
+        \item[•] L’AF déroule les tests planifiés en prenant en compte les différents cas possibles.
+         \item[•] L’AF reçois la confirmation du client. 
+        
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Fin Jalon:}
+
+    \begin{itemize}
+        \item[•] Les différentes parties concernées par l’impact projet confirment la fin des développements
+        \item[•] Les résultats attendus des tests sont concluants.
+    \end{itemize}
+\end{itemize}
+
+\vspace{1cm}
+          \begin{itemize}
+             \item[\ding{228}] \textbf{Phase Validation : } Cette phase commence par la réalisation des tests métiers par le business et le client. Ensuite, l’AF planifie une réunion GoNoGo avec tous les intervenants, et rédige le document GoNoGo. Lors de la réunion GoNoGo, si Go, on planifie le GoLive (Mise en production), si noGo, on corrige les écarts. 
+
+                 \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.6]{Rapport PFE CGI 2023/validation.png}}
+			\caption{Workflow : Phase  Validation }
+		\end{center}
+	\end{figure}
+
+
+
+         \begin{itemize}
+    \item[\ding{217}] \textbf{Effet déclencheur:}
+
+    \begin{itemize}
+        \item[•] L’AF confirme le OK de la phase d'implementation. 
+        \item[•] Le Business et client sont prêts pour commencer les tests UAT.
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Actions attendues:}
+
+    \begin{itemize}
+        \item[•] Le Business déroule les tests métier du message EDI. 
+        \item[•] Le client confirme la réception et les résultats attendus. 
+         \item[•] Les tests UAT sont OK 
+        \item[•] L’AF confirme l’accord des équipes de réalisation, Business et client pour le passage en PROD
+        \item[•] La validation croisée est faite avec un visa de passage en PROD à OK
+        \item[•] L’AF assure le suivi des déploiements envisagés. 
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Fin Jalon:}
+
+    \begin{itemize}
+        \item[•] Le client et le Business sont d’accord après la couverture des tests UAT réalisés des différents cas possibles en PROD
+        \item[•] Les différentes parties concernées confirment la livraison en PROD.
+        \item[•] L’AF arrive à identifier un premier flux passé en PROD
+    \end{itemize}
+\end{itemize}
+
+\vspace{1cm}
+          \begin{itemize}
+             \item[\ding{228}] \textbf{Phase Monitoring : } L’objectif de la phase monitoring est la surveillance des flux. L’AF garde sous surveillance le flux pour une période minimale de 15 jours, et si des problèmes sont détectés lors du monitoring, c’est à l’AF de les corriger. 
+
+                 \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=1]{images/monitoring.png}}
+			\caption{Workflow : Phase  Monitoring }
+		\end{center}
+	\end{figure}
+
+
+
+         \begin{itemize}
+    \item[\ding{217}] \textbf{Effet déclencheur:}
+
+    \begin{itemize}
+        \item[•] L’AF retrouve le flux déployé. 
+        \item[•] Le client confirme la bonne réception du premier flux en PROD. 
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Actions attendues:}
+
+    \begin{itemize}
+        \item[•] L’AF Vérifie le passage du flux selon la fréquence demandée par le client.
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Fin Jalon:}
+
+    \begin{itemize}
+        \item[•]Le flux attendu est bien réceptionné par le client à la fréquence demandée pour au moins deux flux à l’exception des flux paramétrés pour des fréquence très longues (Ex. Tous les 6 mois).
+    \end{itemize}
+\end{itemize}
+
+
+\vspace{1cm}
+          \begin{itemize}
+             \item[\ding{228}] \textbf{POINT S : } Dans cette phase l'équipe support donne le OK pour la clôture du projet.
+
+                 \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.6]{Rapport PFE CGI 2023/point s.png}}
+			\caption{Workflow : POINT S }
+		\end{center}
+	\end{figure}
+
+
+
+         \begin{itemize}
+    \item[\ding{217}] \textbf{Effet déclencheur:}
+
+    \begin{itemize}
+        \item[•] La validation croisée est faite est le visa de passage du Point S est à OK 
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Actions attendues:}
+
+    \begin{itemize}
+        \item[•]Préparer et dérouler le point S avec l’équipe support N2.
+    \end{itemize}
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{217}] \textbf{Fin Jalon:}
+
+    \begin{itemize}
+        \item[•] Le support N2 indique son OK pour prendre le relais sur le projet. 
+        \item[•] Le visa de clôture projet est à OK
+    \end{itemize}
+\end{itemize}
+
+\vspace{1cm}
+         
+         \end{itemize}
+
+         \section{Conclusion}
+         Grâce à ce chapitre, nous avons pu comprendre la notion de modélisation de contexte, qui consiste à définir le processus de manière détaillée pour chaque phase en utilisant le langage de modélisation BPMN.
+
+         \newpage
+	\chapter{Gestion du projet }
+	\fancyhead[R]{\textbf{Chapitre \thechapter:Gestion du projet}}
+	\fancyhead[L]{\hspace*{5cm}}
+
+            
+Dans ce chapitre de gestion de projet, nous nous concentrons sur les principales caractéristiques du suivi du projet. Nous examinons les mécanismes utilisés, les indicateurs clés de performance, les jalons et les outils de gestion pour évaluer l'avancement. Le suivi est crucial pour maintenir le projet sur la bonne voie, et nous explorons son rôle de manière concise et compréhensible.
+
+       \section{Processus JIRA}
+
+       \subsection{Définition de l’outil JIRA }
+
+       Jira est un système de suivi de bugs, de gestion des incidents et de gestion de projets. Il propose des solutions à la fois à destination des développeurs et des intervenants non développeurs.
+
+       
+                 \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.4]{images/jira.jpg}}
+			\caption{Jira }
+		\end{center}
+	\end{figure}
+
+       \subsection{Business request -BR}
+
+       Lors du lancement d’un nouveau projet, la BR est créé directement par le Business de la région en question en insérant la checklist, le fichier test ainsi que le test case. Cette Jira est affectée par la suite au PO.
+
+       
+Le PO récupère la BR en statut « Draft », en renseignant la date « User Field 1 » qui correspond à la date à laquelle le PO commence à qualifier le besoin et valider les inputs avant affectation à l’équipe AF.
+
+
+Une fois, les inputs ok, le PO affecte le projet à l’équipe AF, change le statut de la BR en « submitted » et renseigne la date « User Field2 » correspondant à la date d’affectation à l’équipe AF.
+
+
+Le projet est donc sous la charge d’AF et l’ITM est déclenché.
+Dans le tableau ci-dessous, nous avons les statuts de la BR, qui les change, ainsi que leur état d’avancement : 
+
+\begin{table}[H]
+		\begin{center}
+			\begin{tabularx}{17.5cm}{|p{2cm}|p{2cm}|X|}
+				\hline
+				\textbf{Statut BR} & \textbf{Qui change le statut BR} & \textbf{Avancement projet}                                                                            \\
+				\hline
+				Draft               & Par défaut     & Le PO travaille sur la qualification du besoin                                                   \\
+				\hline
+				Submitted               & PO     & Le PO assigne la BR à l’équipe AF. \\
+				\hline
+				Analysed              & AF     & FS réalisé par l’AF, envoyé au Business et partagé sous SVN                                                      \\
+				\hline
+				Evaluation approved               & Business    & FS validé par le Business                                                     \\
+                \hline
+				Resolution in progess              & AF     & Réalisation mapping. Création ER, CR, TI                                                     \\
+               \hline
+				Implemented              & AF     & Livraison en indus par Opentext                                                    \\
+                \hline
+				UAT approved              & Business     & Validation des UAT                                                   \\
+                 \hline
+				Closed              & PO    & Clôture du projet après le PointS (Transfert au support)                                                   \\
+				\hline
+			\end{tabularx}
+			\caption{Changement du statut d’une BR}
+		\end{center}
+	\end{table}
+
+
+        \section{Conduite du projet}
+          
+Il n'existe pas de démarche standard garantissant la réussite d'un projet, car son adoption doit être adaptée aux spécificités de chaque projet, y compris les objectifs à atteindre.
+Les étapes suivies sont : 
+
+\begin{itemize}
+        \item[•] Comprendre la nature et l'étendue du travail demandé. 
+        \item[•] Identifier le type de recherche d'information demandé. 
+        \item[•] Comprendre les objectifs d'apprentissage visés par le projet et les relier à la matière de l'étude. 
+        \item[•] Adopter la démarche logique pour exécuter le travail. 
+        \item[•] Prêter attention aux consignes et aux critères d'évaluation du projet (indiqués par écrit afin d'éviter toute erreur d'interprétation). 
+        \item[•] Connaitre les échéances et avoir l'intention de les respecter. 
+    \end{itemize}
+
+      \subsection{Méthodologie Agile }
+      
+      L'approche Agile est basée sur le principe que la planification minutieuse d'un projet avant sa réalisation peut être contre-productive. Au lieu de fixer des objectifs rigides à long terme, l'Agilité préconise de se concentrer sur des buts atteignables à court terme. Cette méthodologie encourage à avancer progressivement vers la meilleure stratégie de production, en s'appuyant sur l'expérience et l'apprentissage continu. Contrairement aux approches traditionnelles, l'Agilité accepte l'incertitude du futur et se focalise sur un système unique plutôt que sur des concepts figés. Elle s'adapte à l'échelle du projet et valorise l'amélioration continue des connaissances pour atteindre les objectifs fixés.
+	
+	\subsection{Méthodologie Lean }
+
+        Le client Michelin a choisi la méthode de Lean Management, une approche de gestion et d'organisation du travail visant à améliorer les performances globales de l'entreprise, en mettant l'accent sur la qualité et la rentabilité de la production.
+        
+        Cette méthodologie optimise les processus en éliminant les activités sans valeur ajoutée, comme les opérations inutiles, les transports superflus, les temps d'attente, etc. Elle vise également à réduire les causes de non-qualité et la complexité. Le Lean Management repose sur une dimension managériale importante, créant un environnement de travail favorable pour les collaborateurs. Les deux principaux objectifs de cette approche sont de satisfaire pleinement les clients et de promouvoir le succès individuel de chaque salarié.
+
+        \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.9]{images/lean.png}}
+			\caption{la Méthode Lean management}
+		\end{center}
+	\end{figure}
+
+          \subsection{Déroulement du projet }
+
+          La planification du projet est une étape cruciale qui permet de définir clairement le périmètre du projet et de prévoir le déroulement des activités tout au long de la période de réalisation. Chez CGI, chaque nouveau membre passe par une période d'intégration pour mieux comprendre la culture, les valeurs, les méthodologies et les processus de l'entreprise. Ces éléments essentiels permettent aux membres de devenir rapidement de véritables ambassadeurs de CGI, d'offrir des services de qualité aux clients et de refléter les valeurs de CGI au quotidien.
+
+Ensuite, le nouveau membre commence progressivement à s'intégrer à son équipe grâce à une stratégie de montée en compétences basée sur le partage avec les autres membres de l'équipe, qui assurent la passation des connaissances. Pendant les premiers mois, des séminaires et des formations animées par des experts internes et externes sont souvent organisés pour renforcer les compétences du nouveau membre.
+
+Le diagramme ci-dessous illustre le planning adapté pour assurer la réalisation efficace des différents sujets du projet. Cette approche de planification et d'intégration joue un rôle clé dans la réussite globale du projet:
+
+
+
+         \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.3]{images/Mars.png}}
+			\caption{Diagramme de Gantt}
+		\end{center}
+	\end{figure}
+	
+	\section{Conclusion}
+	L'analyse approfondie du projet m'a permis de définir clairement les principales caractéristiques du suivi de ce dernier. Dans le prochain chapitre, nous allons nous concentrer sur l'exposition détaillée des technologies et des outils de travail qui seront mis en œuvre.
+ 
+	\chapter{Spécification fonctionnelle }
+	\fancyhead[R]{\textbf{Chapitre \thechapter: Spécification fonctionnelle}}
+	\fancyhead[L]{\hspace*{5cm}}
+	
+Ce chapitre actuel se focalise sur la spécification fonctionnelle, qui vise à examiner les divers besoins des utilisateurs et à identifier toutes les fonctionnalités explicites et implicites du projet à venir.
+	\section{Les types des flux }
+
+        Il y a deux types de flux. Le tableau ci-dessous est une comparaison entre les deux.
+
+      \begin{table}[H]
+\centering
+\begin{tabular}{|p{6cm}|p{6cm}|}
+				\hline
+				\textbf{Flux standard} & \textbf{Flux non standard}                                                                           \\
+				\hline
+				La MAP standard prête                & La MAP personnalisée /réutilisation de la MAP                                                      \\
+				\hline
+				TTM >= 30 jrs               & TTM >=90 jrs      \\
+				\hline
+				Préparation du planing               &Préparation de FS Word                                                         \\
+				\hline
+				Connexion push /pull (dépends de client)              & Reuse connexion - -	Création d’une nouvelle connexion toujours push                                                         \\
+                \hline
+				Format de fichier unique - Passe true : même format input et output              & Format de fichier - Input format # Output format - Ex: input format : fichier FAE (invoic) / RCE ( orders) - Ex : output format :EDIFACT, fichier plat , XML, EDIWEEL                                                           \\
+               \hline
+				Envoyer la check-list au support             & Réunion GO/NOGO                                                         \\
+                \hline
+				Monitoring : passation 2 flux avec une date d’extraction et sans erreur => point S              & Monitoring : la passation de 3 flux et lors du 3e me flux en fait le point S                                                        \\
+                 \hline
+				Type de message : S4C, PRICAT             & Type de message : DELJIT , DELFOR ,ORDERS, ORDERSP,DESADV,INVOIC                                                        \\
+				\hline
+		\end{tabular}
+\caption{Flux standard VS flux non standard}
+\end{table}
+
+
+\subsection{Flux standard}
+
+\begin{table}[H]
+    \centering
+\begin{tabular}{ |p{5cm}|p{5cm}|  }
+ \hline
+ \multicolumn{2}{|c|}{\textbf{Flux standard}} \\
+ \hline
+ \textbf{Flux robotisé}& \textbf{Flux non robotisé} \\
+ \hline
+ Type de connexion pull   & Type de connexion push   \\
+ \hline
+\end{tabular}
+\caption{Les types de flux standard}
+\end{table}
+
+
+\begin{itemize}
+    \item[\ding{228}] \textbf{Détails pour les flux robotisées}
+\end{itemize}
+
+\begin{itemize}
+\item[•] Pour toute demande de création via le portail, des champs sont pré-requis. Ces détails sont repris dans la Jira et dans le paramétrage automatique des flux, le cas échéant.
+\item[•] Les sous-tâches sans valeur ajoutée sont finalisées par le robot, sans intervention manuelle.
+\item[•] Les sous-tâches liées à l’indus sont fermées par le robot car elles ne sont plus nécessaires.
+\item[•] Lorsque la Jira est assignée, les acteurs sont identifiés.
+
+Certaines tâches sont affectées à :
+\begin{itemize}
+    \item Un AF
+    \item Un BA
+    \item Au robot
+\end{itemize}
+
+\item[•] Il appartient à chaque intervenant de fermer ses sous-tâches dans l’ordre chronologique. Cela permet au robot de tourner afin de faire avancer les sous-tâches robotisées.
+\item[•]	Un email est envoyé au responsable d’une sous-tâche, lorsque la précédente a été fermée.
+\end{itemize}
+
+        \subsection{La spécification fonctionnelle d’un S4C non robotisé }
+  \begin{itemize}
+    \item[\ding{110}] \textbf{Phase design}
+\end{itemize}
+
+Tout d’abord pour chaque flux l’étape primordiale est le chiffrage qui consiste à estimer la charge du projet et cout nécessaire pour chaque tache.
+
+Cette estimation se base sur un tableau avec des formules prédéfinies à appliquer :
+        
+	
+	\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.8]{images/GXS WORKLOAD.png}}
+			\caption{Exemple de GXS par type de demande }
+		\end{center}
+	\end{figure}
+
+ \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.8]{images/CHARGE GLOBALE DU PROJET.png}}
+			\caption{La charge globale du projet  }
+		\end{center}
+	\end{figure}
+
+
+
+Ensuite on procède à faire un planning (diagramme de Gantt) en provisionnant la durée d’exécution de chaque tache.
+
+ \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.6]{images/GANTT.png}}
+			\caption{Planning du projet }
+		\end{center}
+	\end{figure}
+
+
+\subsection{La spéciation fonctionnelle d’un flux non standard Invoic }
+
+Le traitement d’un flux non standard et totalement diffèrent de celui du flux standard : 
+
+  \begin{itemize}
+    \item[\ding{110}] \textbf{Phase de Faisabilité}
+\end{itemize}
+
+
+    Pour les flux non standards le BA collecte les besoins du client et les transmet à l’AF sous forme d’une check-list.
+   
+\begin{itemize}
+    \item[\ding{110}] \textbf{Phase design:}
+\end{itemize}
+
+
+AF reçoit check-list transmis par le BA pour rédiger la feasibility study (FS).
+
+
+La FS est un livrable qui traduit en détail les exigences et les besoins du client. Dans laquelle On focalise sur les chapitres suivants : 
+
+
+\begin{itemize}
+    \item[\ding{227}] \textbf{REVIEW NEED}
+    \item[\ding{227}] \textbf{PROJECT SCOPE}
+    \item[\ding{227}] \textbf{SOLUTION DESCRIPTION}
+    \begin{itemize}
+    \item[\ding{213}] Functional Description of EDI MESSAGE
+    \begin{itemize}
+        \item[•] PARTNER CONCERNED
+        \item[•] LEGAL PROFIL FOR FULL DEMATERIALIZATION
+        \item[•] INVOIC
+        \item[•] Business/Project Leader part	
+        \item[•] EDI Technical part
+    \end{itemize}
+    \item[\ding{213}] Technical Description of FLOWS
+    \begin{itemize}
+        \item[•] INVOIC Specifications
+        \item[•] Connection Description 
+    \end{itemize}
+    \end{itemize}
+    \item[\ding{227}] \textbf{Risks}
+    \item[\ding{227}] \textbf{Planning}
+    
+\end{itemize}
+
+   \begin{itemize}
+    \item[\ding{229}] \textbf{Exemple d’une FS INVOIC}
+    \begin{itemize}
+        \item[•] Review Need 
+
+        
+        Définir le Message EDI pour déployer le besoin Michelin.
+
+     \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.7]{images/review nedeed.png}}
+			\caption{Review Need }
+		\end{center}
+	\end{figure}
+
+     \item[•] Project scope 
+
+     Consiste à mettre en œuvre un message INVOIC pour l'Allemagne et de déterminer les taches dont notre équipe O2C FeatureTeam est responsable. 
+
+    \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.7]{images/project scoop.png}}
+			\caption{Project Scope }
+		\end{center}
+	\end{figure}
+
+ \item[•] Solution Description 
+
+     Ccette partie se compose de deux sections la description fonctionnelle et technique : 
+
+     \begin{itemize}
+         \item Functional description of EDI message
+
+          Concerne le partenaire du projet ; le code du fournisseur/client (SFID), les numéros de comptes livrés en prod et indus ainsi que le Profil juridique pour la dématérialisation.
+     
+
+    \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.7]{images/sol desc.png}}
+			\caption{Functional description of EDI message}
+		\end{center}
+	\end{figure}
+
+ \item Technical Description of FLOWS
+
+ Pour la partie technique on spécifie les caractéristiques de notre nouvelle map et le type de dématérialisation nécessaire pour ce projet.
+
+
+ \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.7]{images/tech flow.png}}
+			\caption{Technical Description of FLOWS}
+		\end{center}
+	\end{figure}
+     \end{itemize}
+     \item[•] Risks
+
+      On définit les risques possibles et on prévoit une marge de risque.
+Risque de refaire l’implémentation ou le paramétrage lors de la mettre en place des UAT.
+
+\begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.7]{images/risk.png}}
+			\caption{Risks}
+		\end{center}
+	\end{figure}
+
+\item[•] Planning
+
+        \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.7]{images/worload.png}}
+			\caption{Workload}
+		\end{center}
+	\end{figure}
+
+  \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.5]{images/PLANNING.png}}
+			\caption{Planning}
+		\end{center}
+	\end{figure}
+
+
+     
+    \end{itemize}
+    \end{itemize}
+
+    
+ 
+
+	\section{Conclusion}
+
+	Au terme de cette étude de spécification fonctionnelle, nous avons une vision claire des besoins et des fonctionnalités clés du projet, nous fournissant ainsi les informations nécessaires pour avancer efficacement vers sa réalisation.
+
+	\chapter{Réalisation}
+	\fancyhead[R]{\textbf{Chapitre \thechapter: Réalisation}}
+	\fancyhead[L]{\hspace*{5cm}}
+	Après avoir conclu l'étude détaillée et finalisé la spécification fonctionnelle, ce chapitre se dédie à exposer l'outil employé et à décrire les étapes variées qui ont catalysé la réalisation et l'exécution des flux.
+\section{Outils}
+
+\begin{itemize}
+    \item[\ding{110}] \textbf{Opentext}
+
+    OpenText est une entreprise canadienne spécialisée de gestion de documents numériques et d'échanges de données. Elle est fondée en 1991.
+
+    
+ OpenText est un leader mondial dans la gestion de l’information, aidant les entreprises à capturer, gouverner et échanger de l’information en toute sécurité à l’échelle mondiale. 
+ 
+ OpenText résout les défis commerciaux numériques pour les clients, allant des petites et moyennes entreprises aux organisations les plus grandes et les plus complexes du monde. Et il contient 3 portails principaux qui sont :
+
+ 
+
+  \begin{itemize}
+      \item[•]  \textbf{BetaGrid:} Portail OpenText permettant de tracer les flux entre BizLink Michelin et OpenText en environnement de pré-production.   
+
+      \item[•]  \textbf{TraidingGrid:} Portail OpenText permettant de tracer les flux entre BizLink Michelin et OpenText en environnement de production.     
+
+      \item[•]  \textbf{Bizlink:}  Portail Michelin permettant de tracer les flux en entrée et en sortie de Michelin à destination des clients.  
+
+      \item[•]  \textbf{TeamBook: }  Portail d’échange entre l’équipe EDI et OpenText. Il permet de déclencher les développements côté OpenText.
+
+     \item[•] \textbf{ExitBizlink }
+
+    Il s’agit d’une application de paramétrage de tous flux en sortie ou en entrée de Michelin.
+  \end{itemize}
+    
+\end{itemize}
+
+           \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=0.4]{images/download.jpg}}
+			\caption{OpenText }
+		\end{center}
+	\end{figure}
+
+
+    \begin{itemize}
+    \item[\ding{110}] \textbf{ServiceNow }
+
+    ServiceNow, est une entreprise américaine de logiciels basée en Californie, qui développe une plateforme de cloud computing pour aider les entreprises à gérer les flux de travail numériques pour les opérations de l'entreprise. Elle est notamment connue pour son logiciel de suivi de problèmes et de logiciel de gestion des services d'assistance.
+
+    Outil d’échanges entre le support et l’équipe EDI, il sert entre autres à tracer les déploiements en PROD de l’équipe EDI et tracer les incidents EDI.
+    \end{itemize}
+
+     \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=1.8]{images/sevnow.jpg}}
+			\caption{ServiceNow}
+		\end{center}
+	\end{figure}
+    
+
+      \begin{itemize}
+    \item[\ding{110}] \textbf{FileZilla}
+
+    FileZilla est un client FTP, FTPS et SFTP, développé sous la licence publique générale GNU. Il est intégré à la liste des logiciels libres préconisés par l’État français dans le cadre de la modernisation globale de ses systèmes d’informations (S.I.).
+
+    L’outil FileZilla permet d’établir des connexions vers des serveurs distants dans l’objectif de faire un transfert de fichiers vers un serveur, faire une consultation de contenu ou une récupération de fichiers.
+    \end{itemize}
+
+    \begin{figure}[H]
+		\begin{center}
+			\fbox{\includegraphics[scale=1.5]{images/FILEZILLA.jpg}}
+			\caption{ServiceNow}
+		\end{center}
+	\end{figure}
+
+\section{Exemple d’un flux standard }
+
+Nous nous penchons sur le projet Ford qui m'a été confié.
+  
+\subsection{Phase Design}
+En premier lieu, pour chaque flux, l'étape cruciale réside dans l'évaluation initiale, impliquant l'estimation de la charge de travail et des coûts associés à chaque tâche.
+
+
+\begin{figure}[H]
+	\begin{center}
+		\fbox{\includegraphics[scale=0.5]{images/wrkl.png}}
+		\caption{Workload}
+	\end{center}
+\end{figure}
+
+Par la suite, nous entamons l'élaboration d'un calendrier (diagramme de Gantt), en attribuant une période d'exécution à chaque tâche.
+
+\begin{figure}[H]
+	\begin{center}
+		\fbox{\includegraphics[scale=0.5]{images/design.png}}
+		\caption{Planning}
+	\end{center}
+\end{figure}
+
+
+  Avant d'entamer l'implémentation, nous effectuons des tests de connexion entre les serveurs de Michelin et ceux de son client, dans le but de garantir un transfert efficace des fichiers.
+
+  \begin{figure}[H]
+	\begin{center}
+		\fbox{\includegraphics[scale=0.9]{images/filezilla.png}}
+		\caption{Vérification de connexion}
+	\end{center}
+\end{figure}
+
+\subsection{Phase d’implémentation}
+
+Tous les flux standard, comme suggéré par leurs intitulés, sont équipés d'une map préexistante, offrant ainsi une ressource réutilisable.
+ \begin{figure}[H]
+	\begin{center}
+		\fbox{\includegraphics[scale=0.9]{images/crr.png}}
+		\caption{Création de projet}
+	\end{center}
+\end{figure}
+
+
+Les étapes d'implémentation d'un flux standard sont les suivantes :
+
+ \begin{figure}[H]
+	\begin{center}
+		\fbox{\includegraphics[scale=0.9]{images/ETAP.png}}
+		\caption{Les étapes de création d’un nouveau compte }
+	\end{center}
+\end{figure}
+
+On utilise trading gride dans cette phase d’implémentation afin de pousser les Working Order vers opentext: 
+
+- Trading partner working order, c’est un texte dans lequel on insère le setup, la description de flux et le nom du fichier de sortie ainsi qu’un header confirmé de la part du BA pour assurer le bon routage du flux. 
+
+\begin{itemize}
+    \item[\ding{220}] \textbf{Working order:}
+\end{itemize}
+" \hl{PRODUCTION CHANGE ONLY! - NO PREPRODUCTION SETUP REQUIRED}
+
+Hello Team,
+
+Could you please set up a new PRICAT flow between Michelin & FORD.
+This flow is to implement directly in production.
+
+Bulkload line:  Line 1246 - tab ECSC A2A – FORD - FR- PRICAT - DIRECT EN PROD 
+
+Output file name : FORD\_MICHELIN\_FR\_PRICAT\_%YYYY-MM-DDHHmmssml%.csv
+Header :
+<header~PASS~ECATCOM-E-01~~Michelin~FORD~ECAT~~RCE~FORD\_MICHELIN\_FR\_PRICAT\_%YYYY-MM-DDHHmmssml%.csv>
+ 
+Connection Type :  SFTP PUSH
+ 
+You will find attached the test and connection-details file.
+Please apply an OverWrite
+Thank you in advance.
+ 
+Regards.
+ 
+Hajar. "
+
+- Connectivity working order, on remplit le formulaire traiding grid et on détermine le type de connexion puis on joint nos fichiers de connexion ainsi que le fichier setup. 
+
+\begin{figure}[H]
+	\begin{center}
+		\fbox{\includegraphics[scale=0.9]{images/wo.png}}
+		\caption{Les working order crées }
+	\end{center}
+\end{figure}
+
+Ensuite on attend le prestataire (openText) termine le développement puis nous confirme et livre le setup.
+
+\subsection{Phase monitoring }
+
+Identification de passage en succès du premier flux en prod et obtenir la validation du client de la bonne réception du premier flux en environnement production.
+
+\begin{figure}[H]
+	\begin{center}
+		\fbox{\includegraphics[scale=0.6]{images/Screenshot 2023-08-02 203546.png}}
+		\caption{Flux passés}
+	\end{center}
+\end{figure}
+
+Puis en valide le fonctionnement avec client (monitoring habituel). Après on envoit la checklist gonogo au support, et enfin en effectue la réunion de Point S.
+
+\section{Exemple d’un flux non standard }
+
+
+Nous nous penchons sur le projet Tesla qui m'a été confié.
+
+\subsection{Types de MAP}
+
+Dans les flux non standards il y a trois types de map : 
+
+- \textbf{Reuse existing map} : on utilise une map déjà existante et qui est identique à celle demandée par le client.
+
+
+- \textbf{Clonne map} : on utilise une map déjà existante avec des modifications demandées par le client.
+
+
+- \textbf{Create new map} :  c’est une nouvelle map totalement différente des map existantes et qui répond aux besoins du client . 
+
+    \begin{figure}[H]
+	\begin{center}
+		\fbox{\includegraphics[scale=0.7]{images/Image23.png}}
+		\caption{Exemple de nouvelle MAP à créer}
+	\end{center}
+\end{figure}
+
+Pour chaque projet non standard il faut accomplir les différentes étapes indiquer dans la figure suivante :
+
+  \begin{figure}[H]
+	\begin{center}
+		\fbox{\includegraphics[scale=0.9]{images/ETAPE.png}}
+		\caption{Les étapes d’implémentation d’un flux non standard}
+	\end{center}
+\end{figure}
+
+-	\textbf{Request details}: C’est une étape où on demande à opentext l’installation de flux entre Michelin et Class Tractor.
+
+
+-	\textbf{Trading partner Working order}:   on insère le setup on insère le setup, la description de flux et le nom du fichier de sortie ainsi qu’un header confirmé de la part du BA pour assurer le bon routage du flux. 
+
+
+-	\textbf{Map working odrder} : on insère le titre de la work order et on choisit le standard souhaité par le client et ensuite on insère notre spécification de Map.
+
+  \begin{figure}[H]
+	\begin{center}
+		\fbox{\includegraphics[scale=0.4]{images/MAO.png}}
+		\caption{Création de la working order}
+	\end{center}
+\end{figure}
+
+
+On crée le trading partner (le client) à travers une WORKING ORDRE dont laquelle on met le numéro de la linge EDIFACT du flux a builkload, la map a réutiliser  et le type de connexion.
+
+
+On insère le setup, la description de flux et le nom du fichier de sortie  ainsi qu’un header confirmé de la part du BA pour assurer le bon routage du flux. 
+
+Ensuite, Opentext nous devloppe et nous livre.
+
+
+
+\section{Conclusion}
+ Au cours de ce chapitre, nous avons examiné les diverses solutions mises en place pour élaborer le projet. Par la suite, nous avons exploré en détail la mise en œuvre ainsi que le traitement des flux EDI Michelin.
+
+\chapter{Conclusion et perspectives}
+
+Après avoir achevé ce travail, il convient de rappeler que mon projet de fin d'études s'est déroulé au sein de CGI Maroc. Dans ce contexte, notre tâche consistait à établir des flux EDI (Échanges de Données Informatisés), visant à automatiser les échanges entre l'entreprise et ses partenaires. Ce système facilite l'échange de documents commerciaux entre deux entités par le biais d'une communication ordinateur-à-ordinateur. Cette mise en place présente plusieurs avantages, notamment la réduction des coûts, l'augmentation de la rapidité et la garantie de la fiabilité des échanges.
+
+Au cours de ce projet, nous avons suivi une démarche méthodique, débutant par une étude approfondie, puis la rédaction de spécifications fonctionnelles et enfin la réalisation et le traitement d'un flux. Tout au long de ce processus, j'ai veillé à respecter les normes de qualité prédéfinies. Ce projet a exigé un effort considérable en termes de réflexion et de recherche, ce qui m'a permis de développer des compétences techniques solides et d'acquérir des connaissances en matière de meilleures pratiques ainsi qu'une compréhension approfondie des nouvelles technologies.
+
+Nous avons réussi à atteindre les objectifs fixés par les clients en répondant en tous points aux spécifications fonctionnelles. Cette expérience m'a offert l'opportunité de faire mes premiers pas dans le monde professionnel, d'élargir mes compétences au sein d'une grande structure et surtout de collaborer efficacement avec des individus possédant des compétences variées.
+
+En conclusion, travailler sur un projet concret a grandement contribué à mon développement personnel, en cultivant des traits tels que l'adaptabilité et l'intégration. Le contact étroit avec une équipe m'a permis d'apprendre à travailler avec minutie et professionnalisme, enrichissant ainsi ma perspective globale sur le monde professionnel.
+
+
+
+\newpage
+
+\appendix
+\pagenumbering{alph} \setcounter{page}{1}
+\chapter{Références}
+
+\begin{itemize}
+\raggedright{
+\item[•] \textbf{Rapport en \LaTeX:} \url{https://github.com/Hbenaguessim/Pfe2023/new/main}
+
+
+\end{itemize}
+
+\chapter{Bibliographie}
+
+\section{Cours}
+\begin{itemize}
+\item[•] \textbf{Architecture des composant d'entreprise-5IIR-Pr.Jouit }
+\item[•] \textbf{Conception des systèmes d'information-3IIR-Pr.LAFKIH Maryam }
+\item[•] \textbf{Management de qualité-5IIR-Pr.Belasla Mehdi }
+
+
+
+\end{itemize}
+\section{Documentations}
+\begin{itemize}
+\raggedright{
+\item[•] \textbf{EDI:}
+\url{https://www.ibm.com/fr-fr/topics/edi-electronic-data-interchange}
+	\item[•] \textbf{Lean Management:}\url{https://www.manutan.com/blog/fr/lexique/le-lean-management-definition-et-outils}
+	\item[•]\textbf{ OpenText:} \url{https://www.opentext.com/}
+	
+\end{itemize}
+
+
+
+
+
+\end{document}
